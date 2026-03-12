@@ -1,39 +1,51 @@
+/* ── Brutalista Theme — Briefing Generator ── */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&display=swap');
+
 :root {
-  --primary: #6366f1;
-  --primary-hover: #4f46e5;
-  --bg: #111827;
-  --card-bg: #1f2937;
-  --text: #f9fafb;
-  --text-muted: #9ca3af;
-  --border: #374151;
-  --success: #10b981;
+  --primary: #eeff00;
+  --primary-hover: #d4e600;
+  --bg: #0a0a0a;
+  --card-bg: #141414;
+  --card-inner: #1a1a1a;
+  --text: #ffffff;
+  --text-muted: #a0a0a0;
+  --border: #333333;
+  --border-hover: #555555;
+  --success: #4ade80;
+  --indigo: #6366f1;
+  --shadow-card: 8px 8px 0px var(--primary);
+  --shadow-btn: 4px 4px 0px #000000;
 }
 
+*, *::before, *::after { box-sizing: border-box; }
+
 body {
-  font-family: 'Inter', -apple-system, sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   background-color: var(--bg);
   color: var(--text);
   margin: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   min-height: 100vh;
+  padding: 20px;
 }
 
+/* ── Card layout ── */
 .card-container {
   width: 100%;
   max-width: 800px;
-  padding: 20px;
+  margin: 0 auto;
 }
 
 .card {
   background: var(--card-bg);
   padding: 40px;
-  border-radius: 24px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  border: 1px solid var(--border);
+  border: 2px solid var(--text);
+  box-shadow: var(--shadow-card);
 }
 
+/* ── Header ── */
 .header {
   text-align: center;
   margin-bottom: 40px;
@@ -48,20 +60,23 @@ body {
 }
 
 h1 {
-  font-size: 2.5rem;
-  font-weight: 800;
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  font-weight: 900;
   color: var(--text);
-  background: linear-gradient(to right, #818cf8, #c084fc);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
   margin: 0;
 }
 
 .subtitle {
-  color: var(--text-muted);
-  font-size: 1.1rem;
+  color: var(--primary);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
+/* ── Step indicator ── */
 .step-indicator {
   display: flex;
   justify-content: space-between;
@@ -88,44 +103,44 @@ h1 {
   height: 40px;
   background: var(--card-bg);
   border: 2px solid var(--border);
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
+  font-weight: 900;
   z-index: 1;
-  transition: all 0.3s ease;
+  transition: all 0.15s;
   color: var(--text-muted);
+  font-family: 'Space Grotesk', sans-serif;
 }
 
 .step-dot.active {
   border-color: var(--primary);
   background: var(--primary);
-  color: white;
-  box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
+  color: #000;
 }
 
 .step-dot.completed {
   border-color: var(--success);
   background: var(--success);
-  color: white;
+  color: #000;
 }
 
-.form-group {
-  margin-bottom: 32px;
-}
+/* ── Form ── */
+.form-group { margin-bottom: 32px; }
 
 label {
   display: block;
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
   margin-bottom: 8px;
   color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .hint {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   margin-bottom: 16px;
   margin-top: -4px;
 }
@@ -133,27 +148,23 @@ label {
 input, textarea {
   width: 100%;
   padding: 16px;
-  background: #374151;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  font-size: 1.1rem;
-  color: white;
-  transition: all 0.2s;
+  background: var(--card-inner);
+  border: 2px solid var(--border);
+  font-size: 1rem;
+  color: var(--text);
+  transition: border-color 0.15s;
   box-sizing: border-box;
+  font-family: 'Space Grotesk', sans-serif;
 }
 
-textarea {
-  min-height: 150px;
-  resize: vertical;
-}
+textarea { min-height: 150px; resize: vertical; }
 
 input:focus, textarea:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
-  background: #4b5563;
 }
 
+/* ── Buttons ── */
 .button-group {
   display: flex;
   gap: 16px;
@@ -163,40 +174,43 @@ input:focus, textarea:focus {
 button {
   flex: 1;
   padding: 16px;
-  border-radius: 12px;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
-  transition: all 0.2s;
-  border: none;
+  transition: all 0.1s;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  border: 2px solid transparent;
 }
 
 .btn-primary {
   background: var(--primary);
-  color: white;
-  box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.3);
+  color: #000;
+  box-shadow: var(--shadow-btn);
+  border-color: #000;
+  text-transform: uppercase;
 }
 
-.btn-primary:hover {
-  background: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
-}
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-primary:active { transform: translate(2px, 2px); box-shadow: none; }
 
 .btn-secondary {
   background: transparent;
-  border: 1px solid var(--border);
+  border: 2px solid var(--border);
   color: var(--text);
 }
 
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.05);
+.btn-secondary:hover { border-color: var(--border-hover); }
+
+.btn-secondary.active {
+  border-color: var(--primary);
+  background: rgba(238, 255, 0, 0.08);
 }
 
+/* ── Loading state ── */
 .processing-state {
   text-align: center;
   padding: 60px 0;
@@ -213,38 +227,41 @@ button {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
+  0%   { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
+/* ── Finish area ── */
 .success-header {
   text-align: center;
   margin-bottom: 32px;
 }
 
 .success-header h2 {
-  color: #fbbf24;
+  color: var(--primary);
   margin: 16px 0 8px;
+  font-size: 1.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
 }
 
+/* ── Output area ── */
 .output-area {
   padding: 24px;
-  background: #111827;
-  color: #d1d5db;
-  border-radius: 12px;
-  font-family: 'Fira Code', monospace;
-  font-size: 0.9rem;
+  background: #000;
+  color: #4ade80;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.85rem;
   white-space: pre-wrap;
   border: 1px solid var(--border);
   max-height: 400px;
   overflow-y: auto;
 }
 
-.fade-in {
-  animation: fadeIn 0.5s ease-out;
-}
+/* ── Animations ── */
+.fade-in { animation: fadeIn 0.4s ease-out; }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
