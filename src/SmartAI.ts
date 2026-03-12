@@ -1,31 +1,156 @@
-// Motor de Engenharia de Requisitos de Elite (Nível Arquiteto Senior)
-// Alinhado com a Comunidade Manuel Manero: Foco em Valor, Branding e Execução Premium.
+// Smart Requirements Engine — Imersão IA Portugal
+// Generates BriefingOutput JSON for pipeline consumption (Prompt Optimizer → AIOS Compiler)
+
+export interface BriefingOutput {
+  projectName: string;
+  painPoints: string;
+  features: string[];
+  targetAudience: string;
+  experienceLevel: 'iniciante' | 'intermediário' | 'avançado';
+  suggestedStack: {
+    architecture: string;
+    frontend: string;
+    backend: string;
+    database: string;
+  };
+  uiVibe: string;
+  prdText: string;
+  timestamp: string;
+}
+
+export type ProjectType = 'restaurant' | 'dashboard' | 'ecommerce' | 'portfolio' | 'saas' | 'scheduling' | 'generic';
+
+export const PROJECT_TYPE_LABELS: Record<ProjectType, { label: string; emoji: string; architecture: string }> = {
+  restaurant:  { label: 'Restaurante / Café',      emoji: '🍽️',  architecture: 'PWA Mobile-First' },
+  dashboard:   { label: 'Dashboard / Painel',       emoji: '📊',  architecture: 'Analytical SPA' },
+  ecommerce:   { label: 'Loja Online',              emoji: '🛒',  architecture: 'Conversion-Optimised Store' },
+  portfolio:   { label: 'Portfólio / Showcase',     emoji: '🎨',  architecture: 'Static Site com Animações' },
+  saas:        { label: 'SaaS / Plataforma',        emoji: '🚀',  architecture: 'Monolito Modular SaaS' },
+  scheduling:  { label: 'Agendamentos / Reservas',  emoji: '📅',  architecture: 'Calendar-First PWA' },
+  generic:     { label: 'Aplicação Web',            emoji: '💡',  architecture: 'Monolito Modular Moderno' },
+};
+
+interface StackConfig {
+  architecture: string;
+  frontend: string;
+  backend: string;
+  database: string;
+  uiVibe: string;
+}
+
+const STACK_MAP: Record<ProjectType, StackConfig> = {
+  restaurant: {
+    architecture: 'PWA Mobile-First',
+    frontend: 'React 19 + Vite',
+    backend: 'Supabase',
+    database: 'PostgreSQL + Supabase',
+    uiVibe: 'Neo-Gastro Premium',
+  },
+  dashboard: {
+    architecture: 'Analytical SPA',
+    frontend: 'React 19 + Vite',
+    backend: 'Supabase',
+    database: 'PostgreSQL + Supabase',
+    uiVibe: 'Dark Dashboard Profissional',
+  },
+  ecommerce: {
+    architecture: 'Conversion-Optimised Store',
+    frontend: 'React 19 + Vite',
+    backend: 'Supabase',
+    database: 'PostgreSQL + Supabase',
+    uiVibe: 'Premium E-commerce',
+  },
+  portfolio: {
+    architecture: 'Static Site com Animações',
+    frontend: 'React 19 + Vite',
+    backend: 'Nenhum (estático)',
+    database: 'Nenhuma',
+    uiVibe: 'Portfolio Criativo Moderno',
+  },
+  saas: {
+    architecture: 'Monolito Modular SaaS',
+    frontend: 'React 19 + Vite',
+    backend: 'Supabase + Edge Functions',
+    database: 'PostgreSQL + Supabase RLS',
+    uiVibe: 'SaaS Clean Dark Mode',
+  },
+  scheduling: {
+    architecture: 'Calendar-First PWA',
+    frontend: 'React 19 + Vite',
+    backend: 'Supabase',
+    database: 'PostgreSQL + Supabase',
+    uiVibe: 'Clean Scheduling UI',
+  },
+  generic: {
+    architecture: 'Monolito Modular Moderno',
+    frontend: 'React 19 + Vite',
+    backend: 'Supabase',
+    database: 'PostgreSQL + Supabase',
+    uiVibe: 'Premium High-Contrast Dark Mode',
+  },
+};
+
+export function detectProjectType(text: string): ProjectType {
+  const t = text.toLowerCase();
+  if (/menu|restaurante|ementa|comida|café|pastelaria|takeaway|prato|cozinha/.test(t)) return 'restaurant';
+  if (/dashboard|painel|analise|análise|gráfico|métricas|kpi|relatório|estatísticas|backoffice/.test(t)) return 'dashboard';
+  if (/loja|e-commerce|ecommerce|vender|carrinho|produto|comprar|pagamento|stock|encomenda|stripe/.test(t)) return 'ecommerce';
+  if (/portfólio|portfolio|galeria|cv|currículo|showcase|projetos|trabalhos/.test(t)) return 'portfolio';
+  if (/saas|subscrição|plano|faturação|clientes|utilizadores|multi-tenant|dashboard.*clientes/.test(t)) return 'saas';
+  if (/agenda|marcação|agendamento|reserva|horário|calendário|appointment|booking/.test(t)) return 'scheduling';
+  return 'generic';
+}
+
+/** Generates structured BriefingOutput JSON for pipeline consumption */
+export function generateBriefingOutput(briefing: {
+  projectName: string;
+  painPoints: string;
+  features: string;
+  targetAudience: string;
+  constraints?: string;
+  experienceLevel: 'iniciante' | 'intermediário' | 'avançado';
+}): BriefingOutput {
+  const { projectName, painPoints, features, targetAudience, constraints, experienceLevel } = briefing;
+  const combined = projectName + ' ' + painPoints + ' ' + features;
+  const projectType = detectProjectType(combined);
+  const stack = STACK_MAP[projectType];
+  const featuresList = features.split('\n').filter((f: string) => f.trim() !== '');
+
+  const constraintsSection = constraints?.trim()
+    ? `\n\n## Restrições\n${constraints.trim()}`
+    : '';
+
+  const prdText = `# PRD: ${projectName}\n\n## Problema\n${painPoints}\n\n## Público-Alvo\n${targetAudience}${constraintsSection}\n\n## Funcionalidades MVP\n${featuresList.map((f, i) => `- FR-${i + 1}: ${f.trim()}`).join('\n')}\n\n## Stack Sugerida\n- Frontend: ${stack.frontend}\n- Backend: ${stack.backend}\n- Base de Dados: ${stack.database}\n- Arquitectura: ${stack.architecture}`;
+
+  return {
+    projectName,
+    painPoints,
+    features: featuresList,
+    targetAudience,
+    experienceLevel,
+    suggestedStack: {
+      architecture: stack.architecture,
+      frontend: stack.frontend,
+      backend: stack.backend,
+      database: stack.database,
+    },
+    uiVibe: stack.uiVibe,
+    prdText,
+    timestamp: new Date().toISOString(),
+  };
+}
 
 export const generateSmartRequirements = (briefing: any) => {
   const { projectName, painPoints: pain, features, experienceLevel, targetAudience } = briefing;
-  
-  // Lógica de Arquitetura Dinâmica (Refinada)
-  let suggestedArchitecture = "Monolito Modular Moderno";
-  let frontendStack = "React 19 + Vite + Tailwind CSS v4";
-  let backendStack = "Node.js (Serverless)";
-  let dbStack = "PostgreSQL + Prisma ORM (via Supabase)";
-  let uiVibe = "Premium High-Contrast / Modern Dark Mode";
 
-  const keywords = (pain + " " + features).toLowerCase();
-
-  // Deteção de Padrões para Stacks de Elite
-  if (keywords.includes("menu") || keywords.includes("restaurante") || keywords.includes("comida")) {
-    suggestedArchitecture = "PWA Strategy (Mobile-First Hero)";
-    frontendStack = "Next.js 15 (App Router) + Framer Motion";
-    dbStack = "PostgreSQL com RLS (Row Level Security)";
-  } else if (keywords.includes("dados") || keywords.includes("dashboard") || keywords.includes("analise")) {
-    suggestedArchitecture = "Real-time Analytical Engine";
-    frontendStack = "React + Tremor UI + Recharts";
-    backendStack = "Python FastAPI (para processamento denso)";
-  } else if (keywords.includes("loja") || keywords.includes("venda") || keywords.includes("carrinho")) {
-    suggestedArchitecture = "Conversion-Optimized E-commerce";
-    frontendStack = "Next.js + Stripe SDK + Tailwind v4";
-  }
+  const combined = projectName + ' ' + pain + ' ' + features;
+  const projectType = detectProjectType(combined);
+  const stack = STACK_MAP[projectType];
+  const suggestedArchitecture = stack.architecture;
+  const frontendStack = stack.frontend;
+  const backendStack = stack.backend;
+  const dbStack = stack.database;
+  const uiVibe = stack.uiVibe;
 
   const featuresList = features.split('\n').filter((f: string) => f.trim() !== "");
 
@@ -102,4 +227,29 @@ ${claudePrompt}
 
 ${geminiPrompt}
 `;
+};
+
+/**
+ * GERA O ADN ESTRUTURADO PARA A LINHA DE MONTAGEM AIOS (FÍSICA)
+ */
+export const generateProjectSeed = (briefing: any) => {
+  const { projectName, painPoints, features, experienceLevel, targetAudience } = briefing;
+  
+  return {
+    version: "1.0.0",
+    timestamp: new Date().toISOString(),
+    project: {
+      name: projectName,
+      level: experienceLevel,
+      pain: painPoints,
+      audience: targetAudience,
+      features: features.split('\n').filter((f: string) => f.trim() !== "")
+    },
+    architecture: {
+      suggested: "Monolito Modular Moderno",
+      frontend: "React 19 + Vite + Tailwind CSS v4",
+      database: "PostgreSQL + Supabase"
+    },
+    dna: "AIOS-ELITE-SEED"
+  };
 };
