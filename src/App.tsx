@@ -20,7 +20,7 @@ const steps = [
   { id: 4, title: 'Impacto', label: 'Público-Alvo', icon: <CheckCircle size={20} /> },
 ];
 
-const PROMPT_OPTIMIZER_URL = 'http://localhost:5193';
+const PROMPT_OPTIMIZER_URL = import.meta.env.VITE_PROMPT_OPTIMIZER_URL || 'http://localhost:5193';
 
 function loadProfileFromURL(): Partial<FormData> {
   const params = new URLSearchParams(window.location.search);
