@@ -3,6 +3,7 @@ import './App.css';
 import { Download, Copy, ChevronRight, ChevronLeft, CheckCircle, BrainCircuit, Sparkles, Terminal } from 'lucide-react';
 import { generateSmartRequirements, generateProjectSeed, generateBriefingOutput, detectProjectType, PROJECT_TYPE_LABELS } from './SmartAI';
 import { saveBriefing, getBriefingById } from './supabaseClient';
+import PipelineNav from './components/PipelineNav';
 
 interface FormData {
   projectName: string;
@@ -173,6 +174,7 @@ export default function App() {
   };
 
   return (
+    <>
     <div className="card-container">
       <div className="card">
         <header className="header">
@@ -444,6 +446,9 @@ export default function App() {
           </div>
         )}
       </div>
+      <div style={{ height: '160px' }} />
     </div>
+    <PipelineNav />
+    </>
   );
 }
