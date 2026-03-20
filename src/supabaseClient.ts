@@ -52,3 +52,51 @@ export const getBriefingById = async (id: string): Promise<BriefingOutput | null
     return null;
   }
 };
+
+// ── Pipeline Progress Persistence ──────────────────────────────────────────
+
+export const updatePipelineProgress = async (
+  email: string,
+  step: number,
+  data?: Record<string, unknown>
+) => {
+  if (!supabase) return null;
+  try {
+    const updatePayload: Record<string, unknown> = {
+      student_email: email,
+      current_step: step,
+      [`step_${step}_completed`]: true,
+      updated_at: new Date().toISOString(),
+    };
+    if (data) Object.assign(updatePayload, data);
+
+    const { data: result, error } = await supabase
+      .from('pipeline_progress')
+      .upsert(updatePayload, { onConflict: 'student_email' })
+      .select();
+
+    if (error) {
+      console.error('Pipeline progress update error:', error.message);
+      return null;
+    }
+    return result?.[0] ?? null;
+  } catch (err) {
+    console.error('updatePipelineProgress failed:', err);
+    return null;
+  }
+};
+
+export const getPipelineProgress = async (email: string) => {
+  if (!supabase) return null;
+  try {
+    const { data, error } = await supabase
+      .from('pipeline_progress')
+      .select('*')
+      .eq('student_email', email)
+      .single();
+    if (error) return null;
+    return data;
+  } catch {
+    return null;
+  }
+};

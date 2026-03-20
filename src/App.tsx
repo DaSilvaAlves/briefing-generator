@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { Download, Copy, ChevronRight, ChevronLeft, CheckCircle, BrainCircuit, Sparkles, Terminal } from 'lucide-react';
 import { generateSmartRequirements, generateProjectSeed, generateBriefingOutput, detectProjectType, PROJECT_TYPE_LABELS } from './SmartAI';
-import { saveBriefing, getBriefingById } from './supabaseClient';
+import { saveBriefing, getBriefingById, updatePipelineProgress } from './supabaseClient';
 import PipelineNav from './components/PipelineNav';
 
 interface FormData {
@@ -72,6 +72,10 @@ export default function App() {
   const [error, setError] = useState('');
   const [briefingJSON, setBriefingJSON] = useState<string>('');
   const [briefingId, setBriefingId] = useState<string | null>(null);
+  const [studentEmail] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('email') || '';
+  });
 
   // AC-11: detected project type (shown live as user types in step 2)
   const detectedType = formData.painPoints.trim().length > 10
@@ -146,6 +150,11 @@ export default function App() {
       // Persist to Supabase 'briefings' table (graceful — never blocks the UI)
       const saved = await saveBriefing(output);
       if (saved?.id) setBriefingId(saved.id);
+
+      // Pipeline progress tracking
+      if (studentEmail) {
+        void updatePipelineProgress(studentEmail, 2, { briefing_data: output });
+      }
 
       setIsProcessing(false);
       setIsFinished(true);
@@ -350,7 +359,8 @@ export default function App() {
                 onClick={() => {
                   const output = generateBriefingOutput(formData);
                   const encoded = encodeURIComponent(JSON.stringify(output));
-                  window.open(`${PROMPT_OPTIMIZER_URL}?briefing=${encoded}`, '_blank');
+                  const emailParam = studentEmail ? `&email=${encodeURIComponent(studentEmail)}` : '';
+                  window.open(`${PROMPT_OPTIMIZER_URL}?briefing=${encoded}${emailParam}`, '_blank');
                 }}
               >
                 Enviar para o Prompt Optimizer ⚡
@@ -448,7 +458,7 @@ export default function App() {
       </div>
       <div style={{ height: '160px' }} />
     </div>
-    <PipelineNav />
+    <PipelineNav email={studentEmail} />
     </>
   );
 }

@@ -172,7 +172,17 @@ function getStepStyles(stepNum: number): { chip: React.CSSProperties; num: React
   };
 }
 
-export default function PipelineNav() {
+interface PipelineNavProps {
+  email?: string;
+}
+
+function appendEmail(url: string, email?: string): string {
+  if (!email) return url;
+  const separator = url.includes('?') ? '&' : '?';
+  return `${url}${separator}email=${encodeURIComponent(email)}`;
+}
+
+export default function PipelineNav({ email }: PipelineNavProps) {
   const progress = (CURRENT_STEP / PIPELINE_STEPS.length) * 100;
   const nextStep = PIPELINE_STEPS.find(s => s.num === CURRENT_STEP + 1);
 
@@ -200,7 +210,7 @@ export default function PipelineNav() {
             const isClickable = step.num !== CURRENT_STEP;
             const Tag = isClickable ? 'a' : 'span';
             const linkProps = isClickable
-              ? { href: step.url, target: '_blank' as const, rel: 'noopener noreferrer' }
+              ? { href: appendEmail(step.url, email), target: '_blank' as const, rel: 'noopener noreferrer' }
               : {};
             return (
               <React.Fragment key={step.num}>
@@ -216,7 +226,7 @@ export default function PipelineNav() {
 
         {nextStep && (
           <a
-            href={nextStep.url}
+            href={appendEmail(nextStep.url, email)}
             target="_blank"
             rel="noopener noreferrer"
             style={styles.nextBtn}
