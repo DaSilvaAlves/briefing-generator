@@ -179,7 +179,7 @@ export default function App() {
       <div className="card">
         <header className="header">
           <div className="logo-area">
-            <BrainCircuit size={32} color="var(--primary)" />
+            <BrainCircuit size={32} color="var(--cyan)" />
             <h1>Imersão AI Generator</h1>
           </div>
           <p className="subtitle">Do Conceito ao Código em 4 Passos</p>
@@ -198,10 +198,10 @@ export default function App() {
                 </div>
               ))}
             </div>
-            <div style={{ width: '100%', background: '#1e293b', borderRadius: '4px', height: '4px', margin: '-12px 0 16px' }}>
-              <div style={{ width: `${((currentStep - 1) / steps.length) * 100}%`, background: 'var(--primary)', height: '4px', borderRadius: '4px', transition: 'width 0.3s ease' }} />
+            <div style={{ width: '100%', background: 'rgba(255,255,255,0.08)', borderRadius: '4px', height: '4px', margin: '-12px 0 16px' }}>
+              <div style={{ width: `${((currentStep - 1) / steps.length) * 100}%`, background: 'var(--cyan)', height: '4px', borderRadius: '4px', transition: 'width 0.3s ease' }} />
             </div>
-            <p style={{ textAlign: 'right', fontSize: '0.75rem', color: '#64748b', marginTop: '-10px', marginBottom: '16px' }}>
+            <p style={{ textAlign: 'right', fontSize: '0.75rem', color: 'var(--grey)', marginTop: '-10px', marginBottom: '16px' }}>
               Passo {currentStep} de {steps.length} — {Math.round(((currentStep - 1) / steps.length) * 100)}% concluído
             </p>
 
@@ -229,7 +229,7 @@ export default function App() {
                           key={level}
                           type="button"
                           className={`btn-secondary ${formData.experienceLevel === level ? 'active' : ''}`}
-                          style={formData.experienceLevel === level ? {borderColor: 'var(--primary)', background: 'rgba(99, 102, 241, 0.1)'} : {}}
+                          style={formData.experienceLevel === level ? {borderColor: 'rgba(0,245,255,0.2)', background: 'rgba(0,245,255,0.08)'} : {}}
                           onClick={() => setFormData(prev => ({ ...prev, experienceLevel: level }))}
                         >
                           {level.charAt(0).toUpperCase() + level.slice(1)}
@@ -253,11 +253,11 @@ export default function App() {
                   />
                   {/* AC-11: live project type detection card */}
                   {detectedType && detectedType !== 'generic' && (
-                    <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.3)', borderRadius: '8px', padding: '10px 14px' }}>
+                    <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', gap: '10px', background: 'rgba(0,245,255,0.08)', border: '1px solid rgba(0,245,255,0.2)', borderRadius: '20px', padding: '10px 14px' }}>
                       <span style={{ fontSize: '1.4rem' }}>{PROJECT_TYPE_LABELS[detectedType].emoji}</span>
                       <div>
-                        <p style={{ margin: 0, fontSize: '0.8rem', color: '#94a3b8' }}>Detectámos o tipo de projecto:</p>
-                        <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--primary)', fontWeight: 600 }}>
+                        <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--grey)' }}>Detectámos o tipo de projecto:</p>
+                        <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--cyan)', fontWeight: 600 }}>
                           {PROJECT_TYPE_LABELS[detectedType].label} — {PROJECT_TYPE_LABELS[detectedType].architecture}
                         </p>
                       </div>
@@ -295,7 +295,7 @@ export default function App() {
                   </div>
                   {/* AC-8: constraints with beginner-friendly label */}
                   <div className="form-group">
-                    <label>O que NÃO queres na tua aplicação? <span style={{ color: '#64748b', fontWeight: 400 }}>(opcional)</span></label>
+                    <label>O que NÃO queres na tua aplicação? <span style={{ color: 'var(--grey2)', fontWeight: 400 }}>(opcional)</span></label>
                     <p className="hint">Ex: Sem registo obrigatório, sem pagamentos, sem versão desktop.</p>
                     <textarea
                       name="constraints"
@@ -308,7 +308,7 @@ export default function App() {
                 </>
               )}
 
-              {error && <p className="error-message fade-in" style={{color: '#f87171', fontSize: '0.9rem', marginTop: '-16px', marginBottom: '16px'}}>{error}</p>}
+              {error && <p className="error-message fade-in" style={{color: 'var(--magenta)', fontSize: '0.9rem', marginTop: '-16px', marginBottom: '16px'}}>{error}</p>}
 
               <div className="button-group">
                 {currentStep > 1 && (
@@ -331,22 +331,22 @@ export default function App() {
         ) : (
           <div className="finish-area fade-in">
             <div className="success-header">
-              <Sparkles size={48} color="#fbbf24" />
+              <Sparkles size={48} color="var(--gold)" />
               <h2>Centro de Comando Ativado</h2>
               <p>O teu projeto foi estruturado. Escolhe o teu caminho de execução.</p>
               
               <button 
                 className="btn-primary" 
-                style={{marginTop: '20px', width: '100%', padding: '20px', background: 'var(--primary)', color: 'black', fontSize: '1.2rem', fontWeight: 'bold'}}
+                style={{marginTop: '20px', width: '100%', padding: '20px', background: 'var(--cyan)', color: '#04040A', fontSize: '1.2rem', fontWeight: 'bold'}}
                 onClick={downloadProjectSeed}
               >
                 Injetar na Linha de Montagem AIOS 🚀
               </button>
-              <p style={{fontSize: '0.8rem', color: '#64748b', marginTop: '10px'}}>Este ficheiro (.json) é o combustível real para o teu Dashboard físico.</p>
+              <p style={{fontSize: '0.8rem', color: 'var(--grey)', marginTop: '10px'}}>Este ficheiro (.json) é o combustível real para o teu Dashboard físico.</p>
 
               <button
                 className="btn-primary"
-                style={{marginTop: '10px', width: '100%', background: 'var(--indigo)', color: 'white'}}
+                style={{marginTop: '10px', width: '100%', background: 'var(--purple)', color: 'var(--white)'}}
                 onClick={() => {
                   const output = generateBriefingOutput(formData);
                   const encoded = encodeURIComponent(JSON.stringify(output));
@@ -358,7 +358,7 @@ export default function App() {
 
               <button
                 className="btn-primary"
-                style={{marginTop: '10px', width: '100%', background: 'var(--success)', color: 'black'}}
+                style={{marginTop: '10px', width: '100%', background: 'var(--lime)', color: '#04040A'}}
                 onClick={() => {
                   const output = generateBriefingOutput(formData);
                   const blob = new Blob([JSON.stringify(output, null, 2)], { type: 'application/json' });
@@ -373,14 +373,14 @@ export default function App() {
               </button>
 
               {briefingId && (
-                <div style={{marginTop: '12px', background: '#0f172a', padding: '12px 16px', borderRadius: '8px', textAlign: 'left'}}>
-                  <p style={{fontSize: '0.75rem', color: '#94a3b8', marginBottom: '6px'}}>🔗 Briefing guardado — URL partilhável:</p>
-                  <code style={{fontSize: '0.7rem', color: '#4ade80', wordBreak: 'break-all'}}>
+                <div style={{marginTop: '12px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', padding: '12px 16px', borderRadius: '8px', textAlign: 'left'}}>
+                  <p style={{fontSize: '0.75rem', color: 'var(--grey)', marginBottom: '6px'}}>Briefing guardado — URL partilhavel:</p>
+                  <code style={{fontSize: '0.7rem', color: 'var(--lime)', wordBreak: 'break-all', fontFamily: "'JetBrains Mono', monospace"}}>
                     {`${window.location.origin}?load-briefing=${briefingId}`}
                   </code>
                   <button
                     onClick={() => navigator.clipboard.writeText(`${window.location.origin}?load-briefing=${briefingId}`)}
-                    style={{marginTop: '6px', display: 'block', padding: '4px 10px', background: 'none', border: '1px solid #4ade80', color: '#4ade80', borderRadius: '4px', cursor: 'pointer', fontSize: '0.7rem'}}
+                    style={{marginTop: '6px', display: 'block', padding: '4px 10px', background: 'none', border: '1px solid rgba(57,255,20,0.3)', color: 'var(--lime)', borderRadius: '6px', cursor: 'pointer', fontSize: '0.7rem', fontFamily: "'JetBrains Mono', monospace"}}
                   >
                     Copiar URL
                   </button>
@@ -389,48 +389,48 @@ export default function App() {
             </div>
 
             <div className="output-split" style={{display: 'flex', flexDirection: 'column', gap: '30px', marginTop: '40px'}}>
-              <div style={{background: '#000', border: '2px solid var(--primary)', borderRadius: '16px', padding: '25px'}}>
+              <div style={{background: 'rgba(4,4,10,0.8)', border: '1px solid rgba(0,245,255,0.15)', borderRadius: '12px', padding: '25px'}}>
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}}>
-                  <h3 style={{color: 'var(--primary)', margin: 0, fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: '10px'}}>
+                  <h3 style={{color: 'var(--cyan)', margin: 0, fontSize: '1.15rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '10px'}}>
                     <Terminal size={20} /> TERMINAL DE ORQUESTRAÇÃO (AIOS)
                   </h3>
                 </div>
                 
                 <div style={{display: 'flex', gap: '10px', marginBottom: '20px'}}>
                   {['@pm', '@architect', '@dev'].map(skill => (
-                    <div key={skill} style={{fontSize: '0.8rem', color: '#4ade80', border: '1px solid #4ade80', padding: '2px 8px', borderRadius: '4px', fontFamily: 'monospace'}}>
+                    <div key={skill} style={{fontSize: '0.68rem', color: 'var(--cyan)', border: '1px solid rgba(0,245,255,0.2)', background: 'rgba(0,245,255,0.08)', padding: '2px 8px', borderRadius: '20px', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.08em'}}>
                       {skill}: ACTIVE
                     </div>
                   ))}
                 </div>
 
-                <pre className="output-area" style={{height: '250px', fontSize: '0.8rem', background: '#0f172a', color: '#4ade80', padding: '15px', overflowY: 'auto'}}>
+                <pre className="output-area" style={{height: '250px', fontSize: '0.8rem', background: 'rgba(4,4,10,0.9)', color: 'var(--lime)', padding: '15px', overflowY: 'auto'}}>
                   <code>{generatedPRD.split('================================================================================')[1]}</code>
                 </pre>
                 
                 <button 
                   className="btn-primary" 
-                  style={{marginTop: '20px', width: '100%', background: 'var(--primary)', color: 'black'}}
+                  style={{marginTop: '20px', width: '100%', background: 'var(--cyan)', color: '#04040A'}}
                   onClick={() => copyToClipboard(generatedPRD.split('================================================================================')[1], 'Payload Gemini')}
                 >
                   Copiar Payload de Orquestração 🚀
                 </button>
               </div>
 
-              <div style={{background: '#000', border: '2px solid var(--border)', padding: '25px', color: 'var(--text)'}}>
+              <div style={{background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '25px', color: 'var(--white)'}}>
                 <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}}>
-                  <h3 style={{color: 'var(--primary)', margin: 0, fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: '10px'}}>
+                  <h3 style={{color: 'var(--cyan)', margin: 0, fontSize: '1.15rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '10px'}}>
                     <Sparkles size={20} /> BLUEPRINT ESTRATÉGICO (CLAUDE)
                   </h3>
                 </div>
 
-                <pre className="output-area" style={{height: '250px', fontSize: '0.8rem', background: '#0a0a0a', color: '#4ade80', padding: '15px', overflowY: 'auto'}}>
+                <pre className="output-area" style={{height: '250px', fontSize: '0.8rem', background: 'rgba(4,4,10,0.9)', color: 'var(--lime)', padding: '15px', overflowY: 'auto'}}>
                   <code>{generatedPRD.split('================================================================================')[0]}</code>
                 </pre>
                 
                 <button 
                   className="btn-primary" 
-                  style={{marginTop: '20px', width: '100%', background: '#222', color: 'var(--text)', border: '2px solid var(--border)'}}
+                  style={{marginTop: '20px', width: '100%', background: 'rgba(255,255,255,0.03)', color: 'var(--white)', border: '1px solid rgba(255,255,255,0.08)'}}
                   onClick={() => copyToClipboard(generatedPRD.split('================================================================================')[0], 'Blueprint Claude')}
                 >
                   Copiar Blueprint para Claude Code 🤖
