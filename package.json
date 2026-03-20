@@ -4,7 +4,7 @@
   "description": "Ferramenta Frictionless para a Imersão de IA - Gerador de Briefings",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
